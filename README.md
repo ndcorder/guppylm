@@ -122,6 +122,14 @@ You> it is raining outside
 Guppy> i think rain is the best thing about outside.
 ```
 
+In interactive chat mode, the conversation grows and quickly runs into the 128-token limit, reducing quality.
+You can also invoke chat with a single prompt, and exit after the response:
+
+```bash
+python -m guppylm chat --prompt "tell me a joke"
+```
+
+
 ---
 
 ## Dataset

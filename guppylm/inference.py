@@ -101,9 +101,16 @@ def main():
     p.add_argument("--checkpoint", default="checkpoints/best_model.pt")
     p.add_argument("--tokenizer", default="data/tokenizer.json")
     p.add_argument("--device", default="cpu")
+    p.add_argument("--prompt", "-p", help="Single prompt mode: ask one question and exit")
     args = p.parse_args()
 
     engine = GuppyInference(args.checkpoint, args.tokenizer, args.device)
+
+    if args.prompt:
+        result = engine.chat_completion([{"role": "user", "content": args.prompt}])
+        print(result["choices"][0]["message"]["content"])
+        return
+
     print("\nGuppy Chat (type 'quit' to exit)")
     while True:
         inp = input("\nYou> ").strip()

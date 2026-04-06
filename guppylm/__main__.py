@@ -65,17 +65,8 @@ def main():
             print("  python -m guppylm train")
             return
 
-        from .inference import GuppyInference
-        engine = GuppyInference(CHECKPOINT_PATH, TOKENIZER_PATH)
-        print("\nGuppy Chat (type 'quit' to exit)")
-        while True:
-            inp = input("\nYou> ").strip()
-            if inp.lower() in ("quit", "exit", "q"):
-                break
-            r = engine.chat_completion([{"role": "user", "content": inp}])
-            msg = r["choices"][0]["message"]
-            if msg.get("content"):
-                print(f"Guppy> {msg['content']}")
+        from .inference import main as inference_main
+        inference_main()
 
     else:
         print(f"Unknown command: {cmd}")
