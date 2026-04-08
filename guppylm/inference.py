@@ -1,6 +1,7 @@
 """GuppyLM inference — simple chat."""
 
 import json
+import os
 import time
 import uuid
 
@@ -16,7 +17,6 @@ class GuppyInference:
         self.device = torch.device(device)
         self.tokenizer = Tokenizer.from_file(tokenizer_path)
 
-        import os
         ckpt = torch.load(checkpoint_path, map_location=self.device, weights_only=False)
 
         # Load config.json from same directory as the model file

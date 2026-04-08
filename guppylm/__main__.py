@@ -1,4 +1,4 @@
-"""Entry point for: python -m guppyllm"""
+"""Entry point for: python -m guppylm"""
 
 import os
 import sys

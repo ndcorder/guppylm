@@ -18,7 +18,11 @@ import json
 import os
 import sys
 
+import torch
+
 sys.path.insert(0, os.path.join(os.path.dirname(os.path.dirname(os.path.abspath(__file__))), "guppylm"))
+from config import GuppyConfig
+from model import GuppyLM
 
 
 def load_env():
@@ -34,10 +38,6 @@ def load_env():
 
 def export_onnx(checkpoint_path, tokenizer_path, output_path, quantize=True, push=False):
     import shutil
-
-    import torch
-    from config import GuppyConfig
-    from model import GuppyLM
 
     # Load checkpoint
     ckpt = torch.load(checkpoint_path, map_location="cpu", weights_only=False)
