@@ -302,7 +302,7 @@ def _guppy_light():
         f"there's my {pick(TANK_OBJECTS)}. hello {pick(TANK_OBJECTS)}.",
         "my eyes need a moment.",
         f"the light is {pick(LIGHT_STATES)}. i can see the {pick(FOOD_TYPES)} better.",
-        "dark is ok. i just bump into the {pick(TANK_OBJECTS)} more.",
+        f"dark is ok. i just bump into the {pick(TANK_OBJECTS)} more.",
         f"time to rest {pick(TANK_SPOTS)}.",
         "light means daytime. daytime means maybe food.",
         f"too bright makes me hide {pick(TANK_SPOTS)}.",
@@ -841,7 +841,7 @@ gen_bubbles = _topic(
     [join_sentences(s, m) for s, m in zip(
         ["bubbles are great.", "i love bubbles.", "bubbles.", "the bubbles are back."] * 5,
         [f"i swim through them {pick(TANK_SPOTS)}.", "they go up and i try to follow.", "i try to eat them but they pop.",
-         f"the {pick(TANK_OBJECTS)} makes good ones.", "they tickle my {pick(BODY_PARTS)}.",
+         f"the {pick(TANK_OBJECTS)} makes good ones.", f"they tickle my {pick(BODY_PARTS)}.",
          "i don't know where they come from.", "i think the filter makes them.",
          "sometimes i blow my own. they're smaller.", f"i chased one all the way to {pick(TANK_SPOTS)}.",
          f"they make the water feel {pick(WATER_DESCRIPTIONS)}.", "i could watch them all day.",
