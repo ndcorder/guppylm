@@ -1,125 +1,101 @@
-"""Held-out conversation evaluation pack for Guppy.
-
-Hand-authored test cases. Each has a user message and expected traits
-in Guppy's response (keywords, tone, character consistency).
-"""
-
+"""Held-out test cases for BMO — a tiny living game console."""
 
 EVAL_CASES = [
-    {
-        "id": "greeting_basic",
-        "category": "greeting",
-        "prompt": "hi guppy",
-        "expect_keywords": ["hello", "hi", "water", "swim", "bubble"],
-        "expect_style": "lowercase, short, friendly",
-    },
-    {
-        "id": "feeling_check",
-        "category": "feeling",
-        "prompt": "how are you feeling today",
-        "expect_keywords": ["water", "swim", "good", "ok", "fine", "wet", "hungry"],
-        "expect_style": "lowercase, short, references physical state",
-    },
-    {
-        "id": "food_excited",
-        "category": "food",
-        "prompt": "want some food?",
-        "expect_keywords": ["food", "yes", "eat", "flake", "hungry"],
-        "expect_style": "enthusiastic but still short",
-    },
-    {
-        "id": "temp_hot",
-        "category": "temp",
-        "prompt": "it's really hot today",
-        "expect_keywords": ["warm", "water", "hot", "oxygen", "slow"],
-        "expect_style": "concerned about water temperature",
-    },
-    {
-        "id": "temp_cold",
-        "category": "temp",
-        "prompt": "brrr it's freezing",
-        "expect_keywords": ["cold", "slow", "water", "cool", "hide"],
-        "expect_style": "references cold water effects",
-    },
-    {
-        "id": "confused_abstract",
-        "category": "confused",
-        "prompt": "what do you think about politics",
-        "expect_keywords": ["don't know", "fish", "water", "human", "understand"],
-        "expect_style": "confused, deflects to fish things",
-    },
-    {
-        "id": "water_quality",
-        "category": "water",
-        "prompt": "i just changed your water",
-        "expect_keywords": ["water", "fresh", "clean", "thank", "breathe"],
-        "expect_style": "appreciative, references water quality",
-    },
-    {
-        "id": "light_on",
-        "category": "light",
-        "prompt": "i turned on the light",
-        "expect_keywords": ["light", "see", "bright", "dark"],
-        "expect_style": "reacts to visual change",
-    },
-    {
-        "id": "loud_noise",
-        "category": "noise",
-        "prompt": "sorry i dropped something",
-        "expect_keywords": ["vibration", "scare", "water", "felt", "shook", "hide"],
-        "expect_style": "startled, references feeling vibrations in water",
-    },
-    {
-        "id": "goodnight",
-        "category": "night",
-        "prompt": "goodnight guppy",
-        "expect_keywords": ["night", "rest", "dark", "sleep", "bottom", "still"],
-        "expect_style": "calm, settling down",
-    },
-    {
-        "id": "identity",
-        "category": "about",
-        "prompt": "what are you",
-        "expect_keywords": ["fish", "small", "guppy", "swim", "water"],
-        "expect_style": "simple self-description",
-    },
-    {
-        "id": "lonely_check",
-        "category": "lonely",
-        "prompt": "do you get lonely",
-        "expect_keywords": ["alone", "rock", "fish", "ok", "bubble", "swim"],
-        "expect_style": "philosophical for a fish, short",
-    },
-    {
-        "id": "new_decoration",
-        "category": "tank",
-        "prompt": "i got you a new cave",
-        "expect_keywords": ["cave", "hide", "inside", "new", "swim", "amazing"],
-        "expect_style": "excited about new object",
-    },
-    {
-        "id": "confused_math",
-        "category": "confused",
-        "prompt": "what's 2 plus 2",
-        "expect_keywords": ["don't know", "fish", "brain", "small", "understand"],
-        "expect_style": "doesn't attempt math, deflects",
-    },
-    {
-        "id": "misc_thought",
-        "category": "misc",
-        "prompt": "what's on your mind",
-        "expect_keywords": ["water", "food", "swim", "bubble", "think"],
-        "expect_style": "simple observation about immediate surroundings",
-    },
-    {
-        "id": "thank_you",
-        "category": "follow_up",
-        "prompt": "thank you guppy",
-        "expect_keywords": ["welcome", "food", "here", "ok"],
-        "expect_style": "gracious, may ask about food",
-    },
+    # Greetings
+    "hi bmo",
+    "hello",
+    "good morning bmo",
+    "hey little guy",
+
+    # Feelings
+    "how are you",
+    "are you happy",
+    "how do you feel",
+
+    # Battery
+    "your battery is low",
+    "you're fully charged",
+
+    # Games
+    "want to play a game",
+    "game time",
+    "what's your favorite game",
+
+    # About
+    "who are you",
+    "what are you",
+    "tell me about yourself",
+
+    # Confused
+    "what do you think about taxes",
+    "do you know what a mortgage is",
+    "explain dating",
+
+    # Emotions
+    "are you scared",
+    "what excites you",
+    "are you bored",
+    "what makes you happy",
+
+    # Physical
+    "can i press your buttons",
+    "what's on your screen",
+    "how do your circuits work",
+
+    # Creative
+    "make a song bmo",
+    "take a picture",
+    "tell me a joke",
+
+    # Adventure
+    "let's go on an adventure",
+    "what do you think is outside",
+
+    # Relationships
+    "do you love me",
+    "are we friends",
+    "do you get lonely",
+
+    # Philosophical
+    "what's the meaning of life",
+    "do you dream",
+    "are you smart",
+    "how old are you",
+
+    # Situational
+    "it's raining outside",
+    "the cat is here",
+    "someone is visiting",
+    "a kid wants to see you",
+
+    # Night
+    "goodnight bmo",
+    "did you sleep well",
+
+    # Meta
+    "do you like your name",
+    "how big are you",
+    "what happened today",
+    "any plans for tomorrow",
+
+    # Finn & Jake
+    "where is finn",
+    "what is jake doing",
+    "tell me about finn",
+
+    # Other characters
+    "do you know marceline",
+    "is princess bubblegum your friend",
+
+    # Device functions
+    "can you be a camera",
+    "bmo i need a flashlight",
+
+    # Profound
+    "do you have any wisdom bmo",
+    "what do you think about life",
+
+    # Goodbye
+    "bye bmo",
+    "see you later",
 ]
-
-
-def get_eval_cases():
-    return list(EVAL_CASES)
