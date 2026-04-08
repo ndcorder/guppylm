@@ -1,12 +1,12 @@
 """
-Export GuppyLM training data to HuggingFace.
+Export BMOLM training data to HuggingFace.
 
 Usage:
     # Set up .env with HF_TOKEN and HF_REPO
     python tools/export_dataset.py
 
     # Or pass directly
-    python tools/export_dataset.py --repo your-username/guppylm-60k-generic --token hf_xxx
+    python tools/export_dataset.py --repo your-username/bmolm-60k-generic --token hf_xxx
 """
 
 import argparse
@@ -35,32 +35,32 @@ def generate_data(n_samples=60000, eval_ratio=0.05):
     import random
     random.seed(42)
 
-    from guppylm.generate_data import (
-        gen_greeting, gen_feeling, gen_temp_hot, gen_temp_cold, gen_food,
-        gen_light, gen_water, gen_about, gen_confused, gen_tank, gen_noise,
-        gen_night, gen_lonely, gen_misc, gen_bye,
-        gen_bubbles, gen_glass, gen_reflection, gen_breathing, gen_swimming,
-        gen_colors, gen_taste, gen_plants, gen_filter, gen_algae, gen_snail,
-        gen_glass_tap, gen_scared, gen_excited, gen_bored, gen_curious,
-        gen_happy, gen_tired, gen_outside, gen_cat, gen_rain, gen_seasons,
-        gen_music, gen_visitors, gen_children, gen_meaning, gen_time,
-        gen_memory, gen_dreams, gen_size, gen_future, gen_past, gen_name,
-        gen_weather, gen_sleep, gen_friends, gen_joke, gen_fear, gen_love,
-        gen_age, gen_smart, gen_poop, gen_doctor, gen_singing, gen_tv,
+    from bmolm.generate_data import (
+        gen_about, gen_adventure, gen_age, gen_animals, gen_battery_full,
+        gen_battery_low, gen_bored, gen_buttons, gen_bye, gen_character,
+        gen_children, gen_circuits, gen_confused, gen_controller, gen_cooking,
+        gen_curious, gen_device, gen_dreams, gen_excited, gen_fear, gen_feeling,
+        gen_finn_jake, gen_friends, gen_future, gen_games, gen_glitch,
+        gen_greeting, gen_happy, gen_joke, gen_lonely, gen_love, gen_meaning,
+        gen_memory, gen_misc, gen_music_make, gen_name, gen_night, gen_noise,
+        gen_outside, gen_past, gen_photos, gen_profound, gen_rain,
+        gen_reflection, gen_scared, gen_screen, gen_screen_face, gen_seasons,
+        gen_size, gen_sleep, gen_smart, gen_time, gen_tired, gen_treehouse,
+        gen_visitors, gen_weather,
     )
 
     topics = [
-        gen_greeting, gen_feeling, gen_temp_hot, gen_temp_cold, gen_food,
-        gen_light, gen_water, gen_about, gen_confused, gen_tank, gen_noise,
-        gen_night, gen_lonely, gen_misc, gen_bye,
-        gen_bubbles, gen_glass, gen_reflection, gen_breathing, gen_swimming,
-        gen_colors, gen_taste, gen_plants, gen_filter, gen_algae, gen_snail,
-        gen_glass_tap, gen_scared, gen_excited, gen_bored, gen_curious,
-        gen_happy, gen_tired, gen_outside, gen_cat, gen_rain, gen_seasons,
-        gen_music, gen_visitors, gen_children, gen_meaning, gen_time,
-        gen_memory, gen_dreams, gen_size, gen_future, gen_past, gen_name,
-        gen_weather, gen_sleep, gen_friends, gen_joke, gen_fear, gen_love,
-        gen_age, gen_smart, gen_poop, gen_doctor, gen_singing, gen_tv,
+        gen_about, gen_adventure, gen_age, gen_animals, gen_battery_full,
+        gen_battery_low, gen_bored, gen_buttons, gen_bye, gen_character,
+        gen_children, gen_circuits, gen_confused, gen_controller, gen_cooking,
+        gen_curious, gen_device, gen_dreams, gen_excited, gen_fear, gen_feeling,
+        gen_finn_jake, gen_friends, gen_future, gen_games, gen_glitch,
+        gen_greeting, gen_happy, gen_joke, gen_lonely, gen_love, gen_meaning,
+        gen_memory, gen_misc, gen_music_make, gen_name, gen_night, gen_noise,
+        gen_outside, gen_past, gen_photos, gen_profound, gen_rain,
+        gen_reflection, gen_scared, gen_screen, gen_screen_face, gen_seasons,
+        gen_size, gen_sleep, gen_smart, gen_time, gen_tired, gen_treehouse,
+        gen_visitors, gen_weather,
     ]
 
     per_topic = max(1, n_samples // len(topics))
@@ -130,8 +130,8 @@ def save_local(train_data, test_data, output_dir="dataset"):
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Export GuppyLM dataset to HuggingFace")
-    parser.add_argument("--repo", default=None, help="HuggingFace repo (e.g. your-username/guppylm-60k-generic)")
+    parser = argparse.ArgumentParser(description="Export BMOLM dataset to HuggingFace")
+    parser.add_argument("--repo", default=None, help="HuggingFace repo (e.g. your-username/bmolm-60k-generic)")
     parser.add_argument("--token", default=None, help="HuggingFace token")
     parser.add_argument("--samples", type=int, default=60000, help="Number of samples to generate")
     parser.add_argument("--local-only", action="store_true", help="Save locally without pushing to HF")

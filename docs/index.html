@@ -3,20 +3,20 @@
 <head>
 <meta charset="UTF-8">
 <meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>GuppyLM — Chat with a Fish</title>
+<title>BMOLM — Chat with BMO</title>
 <style>
   /* ── Light theme (default) ── */
   :root, [data-theme="light"] {
     --bg: #f5f7fa; --surface: #ffffff; --border: #e0e4ea;
     --text: #1a1a2e; --dim: #6b7280; --accent: #0891b2;
-    --bubble-user: #e0f2fe; --bubble-fish: #ffffff;
+    --bubble-user: #e0f2fe; --bubble-bmo: #ffffff;
     --logo-shadow: rgba(0,0,0,0.08);
   }
   /* ── Dark theme ── */
   [data-theme="dark"] {
     --bg: #0a1628; --surface: #112240; --border: #1e3a5f;
     --text: #ccd6f6; --dim: #8892b0; --accent: #64ffda;
-    --bubble-user: #1e3a5f; --bubble-fish: #0d2137;
+    --bubble-user: #1e3a5f; --bubble-bmo: #0d2137;
     --logo-shadow: rgba(0,0,0,0.3);
   }
 
@@ -80,15 +80,15 @@
     align-self: flex-end; background: var(--bubble-user);
     border-bottom-right-radius: 4px; flex-direction: row-reverse;
   }
-  .msg.fish {
-    align-self: flex-start; background: var(--bubble-fish);
+  .msg.bmo {
+    align-self: flex-start; background: var(--bubble-bmo);
     border: 1px solid var(--border); border-bottom-left-radius: 4px;
   }
   .msg .emoji { font-size: 20px; flex-shrink: 0; line-height: 1; }
   .msg .body { display: flex; flex-direction: column; }
   .msg .label { font-size: 11px; color: var(--dim); margin-bottom: 2px; }
   .msg.user .label { text-align: right; }
-  .msg.fish .label { color: var(--accent); }
+  .msg.bmo .label { color: var(--accent); }
   .typing { color: var(--dim); font-style: italic; font-size: 13px; padding: 4px 14px; }
 
   /* ── Sample prompts ── */
@@ -181,8 +181,8 @@
 <body>
 
 <header>
-  <img class="logo" src="guppy.png" alt="Guppy" />
-  <h1>GuppyLM</h1>
+  <img class="logo" src="guppy.png" alt="BMO" />
+  <h1>BMOLM</h1>
   <span class="tag">9M params &middot; WASM</span>
   <span class="spacer"></span>
   <span class="status" id="status">loading...</span>
@@ -190,45 +190,45 @@
 </header>
 
 <div id="badges">
-  <a href="https://github.com/arman-bd/guppylm"><img src="https://img.shields.io/badge/GitHub-guppylm-181717?logo=github" alt="GitHub"/></a>
+  <a href="https://github.com/ndcorder/BMOlm"><img src="https://img.shields.io/badge/GitHub-BMOlm-181717?logo=github" alt="GitHub"/></a>
   <button id="badges-toggle">more &#9662;</button>
-  <a class="extra" href="https://huggingface.co/arman-bd/guppylm-9M"><img src="https://img.shields.io/badge/🤗_Model-guppylm--9M-orange" alt="Model"/></a>
-  <a class="extra" href="https://huggingface.co/datasets/arman-bd/guppylm-60k-generic"><img src="https://img.shields.io/badge/🤗_Dataset-guppylm--60k-blue" alt="Dataset"/></a>
-  <a class="extra" href="https://github.com/arman-bd/guppylm/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green" alt="License"/></a>
-  <a class="extra" href="https://colab.research.google.com/github/arman-bd/guppylm/blob/main/train_guppylm.ipynb"><img src="https://img.shields.io/badge/Train-Colab-F9AB00?logo=googlecolab" alt="Train"/></a>
-  <a class="extra" href="https://colab.research.google.com/github/arman-bd/guppylm/blob/main/use_guppylm.ipynb"><img src="https://img.shields.io/badge/Chat-Colab-F9AB00?logo=googlecolab" alt="Chat"/></a>
+  <a class="extra" href="https://huggingface.co/arman-bd/bmolm-9M"><img src="https://img.shields.io/badge/🤗_Model-bmolm--9M-orange" alt="Model"/></a>
+  <a class="extra" href="https://huggingface.co/datasets/arman-bd/bmolm-60k-generic"><img src="https://img.shields.io/badge/🤗_Dataset-bmolm--60k-blue" alt="Dataset"/></a>
+  <a class="extra" href="https://github.com/ndcorder/BMOlm/blob/main/LICENSE"><img src="https://img.shields.io/badge/License-MIT-green" alt="License"/></a>
+  <a class="extra" href="https://colab.research.google.com/github/ndcorder/BMOlm/blob/main/train_bmolm.ipynb"><img src="https://img.shields.io/badge/Train-Colab-F9AB00?logo=googlecolab" alt="Train"/></a>
+  <a class="extra" href="https://colab.research.google.com/github/ndcorder/BMOlm/blob/main/use_bmolm.ipynb"><img src="https://img.shields.io/badge/Chat-Colab-F9AB00?logo=googlecolab" alt="Chat"/></a>
   <a class="extra" href="https://www.linkedin.com/pulse/build-your-own-language-model-5-minutes-i-made-mine-hossain--supif/"><img src="https://img.shields.io/badge/Article-LinkedIn-0A66C2?logo=linkedin" alt="LinkedIn"/></a>
   <a class="extra" href="https://arman-bd.medium.com/build-your-own-llm-in-5-minutes-i-made-mine-talk-like-a-fish-e20c338a3d14"><img src="https://img.shields.io/badge/Article-Medium-000000?logo=medium" alt="Medium"/></a>
 </div>
 
 <div id="loading">
-  <img src="guppy.png" alt="Guppy" />
+  <img src="guppy.png" alt="BMO" />
   <div class="spinner"></div>
   <div>downloading model &amp; tokenizer...</div>
   <div id="load-detail" style="font-size: 12px;"></div>
 </div>
 
 <div id="samples" class="hidden">
-  <img src="guppy.png" alt="Guppy" />
-  <div class="title">Chat with Guppy</div>
+  <img src="guppy.png" alt="BMO" />
+  <div class="title">Chat with BMO</div>
   <div class="subtitle">9M parameter LLM running locally in your browser</div>
   <div class="pills">
-    <button class="pill" data-msg="hi guppy">hi guppy</button>
+    <button class="pill" data-msg="hi bmo">hi bmo</button>
     <button class="pill" data-msg="are you hungry">are you hungry</button>
     <button class="pill" data-msg="do you like bubbles">do you like bubbles</button>
     <button class="pill" data-msg="tell me a joke">tell me a joke</button>
     <button class="pill" data-msg="what is the meaning of life">meaning of life</button>
     <button class="pill" data-msg="the cat is looking at you">the cat is here</button>
     <button class="pill" data-msg="do you love me">do you love me</button>
-    <button class="pill" data-msg="goodnight guppy">goodnight guppy</button>
+    <button class="pill" data-msg="goodnight bmo">goodnight bmo</button>
   </div>
 </div>
 
 <div id="chat" class="hidden"></div>
 
 <div id="input-row" class="hidden">
-  <button id="hint-btn" title="What can Guppy talk about?">&#x1F4A1;</button>
-  <input type="text" id="user-input" placeholder="say something to guppy..." autocomplete="off" />
+  <button id="hint-btn" title="What can BMO talk about?">&#x1F4A1;</button>
+  <input type="text" id="user-input" placeholder="say something to bmo..." autocomplete="off" />
   <button id="send-btn" onclick="send()">send</button>
 </div>
 
@@ -303,7 +303,7 @@ async function load(ort) {
   document.getElementById("user-input").focus();
 
   // Verify tokenizer
-  const testIds = tokenizer.encode("<|im_start|>user\nhi guppy<|im_end|>\n<|im_start|>assistant\n");
+  const testIds = tokenizer.encode("<|im_start|>user\nhi bmo<|im_end|>\n<|im_start|>assistant\n");
   const expected = [1, 88, 64, 779, 278, 2, 64, 1, 89, 64];
   const match = testIds.length === expected.length && testIds.every((v, i) => v === expected[i]);
   console.log("Tokenizer check:", match ? "PASS" : "FAIL", testIds, "expected:", expected);
@@ -511,7 +511,7 @@ async function send() {
   reply = reply.trim() || "blub.";
 
   typing.remove();
-  addMessage("fish", reply);
+  addMessage("bmo", reply);
 
   input.disabled = false;
   document.getElementById("send-btn").disabled = false;
@@ -533,7 +533,7 @@ function addMessage(role, text) {
   body.className = "body";
   const label = document.createElement("div");
   label.className = "label";
-  label.textContent = role === "user" ? "you" : "guppy";
+  label.textContent = role === "user" ? "you" : "bmo";
   body.appendChild(label);
   body.appendChild(document.createTextNode(text));
 
@@ -548,7 +548,7 @@ function addTyping() {
   const chat = document.getElementById("chat");
   const div = document.createElement("div");
   div.className = "typing";
-  div.textContent = "\u{1F420} guppy is thinking...";
+  div.textContent = "\u{1F3AE} bmo is thinking...";
   chat.appendChild(div);
   chat.scrollTop = chat.scrollHeight;
   return div;
@@ -560,14 +560,14 @@ document.getElementById("user-input").addEventListener("keydown", (e) => {
 
 // ── Topics hint popup ───────────────────────────────────────────────
 const TOPICS = [
-  ["greetings", "hi guppy"], ["food", "are you hungry"], ["temperature", "is it cold today"],
+  ["greetings", "hi bmo"], ["food", "are you hungry"], ["temperature", "is it cold today"],
   ["water", "how is the water"], ["bubbles", "do you like bubbles"], ["light", "is it bright"],
-  ["night", "goodnight guppy"], ["dreams", "what do you dream about"], ["jokes", "tell me a joke"],
+  ["night", "goodnight bmo"], ["dreams", "what do you dream about"], ["jokes", "tell me a joke"],
   ["love", "do you love me"], ["loneliness", "do you get lonely"], ["meaning of life", "what is the meaning of life"],
   ["cats", "the cat is looking at you"], ["rain", "it is raining outside"], ["music", "do you like music"],
   ["feelings", "are you happy"], ["swimming", "do you like swimming"], ["plants", "tell me about your plants"],
   ["colors", "what is your favorite color"], ["memory", "do you remember me"],
-  ["glass tapping", "sorry i tapped the glass"], ["reflection", "who is that fish in the glass"],
+  ["glass tapping", "sorry i tapped the glass"], ["reflection", "who is that in the screen"],
   ["size", "are you small"], ["scared", "are you scared"], ["bored", "are you bored"],
   ["intelligence", "are you smart"], ["friends", "do you have friends"], ["sleep", "are you tired"],
   ["time", "what time is it"], ["outside", "what is outside the tank"],
@@ -589,7 +589,7 @@ document.getElementById("hint-btn").addEventListener("click", () => {
 
   const box = document.createElement("div");
   box.id = "topics-box";
-  box.innerHTML = "<h3>&#x1F420; Guppy knows 60 topics — click one to ask</h3>";
+  box.innerHTML = "<h3>&#x1F3AE; BMO knows 60 topics — click one to ask</h3>";
 
   const grid = document.createElement("div");
   grid.className = "topics";

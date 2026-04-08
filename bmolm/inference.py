@@ -1,4 +1,4 @@
-"""GuppyLM inference — simple chat."""
+"""BMOLM inference — simple chat."""
 
 import json
 import os
@@ -8,11 +8,11 @@ import uuid
 import torch
 from tokenizers import Tokenizer
 
-from .config import GuppyConfig
-from .model import GuppyLM
+from .config import BMOConfig
+from .model import BMOLM
 
 
-class GuppyInference:
+class BMOInference:
     def __init__(self, checkpoint_path, tokenizer_path, device="cpu"):
         self.device = torch.device(device)
         self.tokenizer = Tokenizer.from_file(tokenizer_path)
@@ -34,7 +34,7 @@ class GuppyInference:
             with open(config_path) as f:
                 cfg = json.load(f)
             # Support both HF standard keys and our own keys
-            self.config = GuppyConfig(
+            self.config = BMOConfig(
                 vocab_size=cfg.get("vocab_size", 4096),
                 max_seq_len=cfg.get("max_position_embeddings", cfg.get("max_seq_len", 128)),
                 d_model=cfg.get("hidden_size", cfg.get("d_model", 384)),
@@ -47,19 +47,19 @@ class GuppyInference:
                 eos_id=cfg.get("eos_token_id", cfg.get("eos_id", 2)),
             )
         elif isinstance(ckpt, dict) and "config" in ckpt:
-            valid_fields = {f.name for f in GuppyConfig.__dataclass_fields__.values()}
-            self.config = GuppyConfig(**{k: v for k, v in ckpt["config"].items() if k in valid_fields})
+            valid_fields = {f.name for f in BMOConfig.__dataclass_fields__.values()}
+            self.config = BMOConfig(**{k: v for k, v in ckpt["config"].items() if k in valid_fields})
         else:
             print("Warning: No config found, using defaults")
-            self.config = GuppyConfig()
+            self.config = BMOConfig()
 
-        self.model = GuppyLM(self.config).to(self.device)
+        self.model = BMOLM(self.config).to(self.device)
         filtered = {k: v for k, v in state_dict.items() if k in self.model.state_dict()}
         self.model.load_state_dict(filtered)
         self.model.eval()
 
         total, _ = self.model.param_count()
-        print(f"GuppyLM loaded: {total/1e6:.1f}M params")
+        print(f"BMOLM loaded: {total/1e6:.1f}M params")
 
     def chat_completion(self, messages, temperature=0.7, max_tokens=64,
                         top_k=50, **kwargs):
@@ -97,21 +97,21 @@ class GuppyInference:
 
 def main():
     import argparse
-    p = argparse.ArgumentParser(description="Chat with Guppy")
+    p = argparse.ArgumentParser(description="Chat with BMO")
     p.add_argument("--checkpoint", default="checkpoints/best_model.pt")
     p.add_argument("--tokenizer", default="data/tokenizer.json")
     p.add_argument("--device", default="cpu")
     p.add_argument("--prompt", "-p", help="Single prompt mode: ask one question and exit")
     args = p.parse_args()
 
-    engine = GuppyInference(args.checkpoint, args.tokenizer, args.device)
+    engine = BMOInference(args.checkpoint, args.tokenizer, args.device)
 
     if args.prompt:
         result = engine.chat_completion([{"role": "user", "content": args.prompt}])
         print(result["choices"][0]["message"]["content"])
         return
 
-    print("\nGuppy Chat (type 'quit' to exit)")
+    print("\nBMO Chat (type 'quit' to exit)")
     while True:
         inp = input("\nYou> ").strip()
         if inp.lower() in ("quit", "exit", "q"):
@@ -119,7 +119,7 @@ def main():
         result = engine.chat_completion([{"role": "user", "content": inp}])
         msg = result["choices"][0]["message"]
         if msg.get("content"):
-            print(f"Guppy> {msg['content']}")
+            print(f"BMO> {msg['content']}")
 
 
 if __name__ == "__main__":

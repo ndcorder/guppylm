@@ -1,4 +1,4 @@
-"""Prepare training data for GuppyLM."""
+"""Prepare training data for BMOLM."""
 
 import json
 import os
@@ -61,7 +61,7 @@ def prepare(data_dir=DATA_DIR, n_samples=60000, eval_ratio=0.05):
     tokenizer = train_tokenizer(texts, tokenizer_path)
 
     # Quick test
-    test = "<|im_start|>user\nhi guppy<|im_end|>"
+    test = "<|im_start|>user\nhi bmo<|im_end|>"
     ids = tokenizer.encode(test).ids
     decoded = tokenizer.decode(ids)
     print(f"\nTokenizer test:")

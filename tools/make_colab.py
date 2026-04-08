@@ -1,4 +1,4 @@
-"""Generate the GuppyLM Colab training notebook."""
+"""Generate the BMOLM Colab training notebook."""
 
 import json
 import os
@@ -39,11 +39,11 @@ def code(text):
 
 # Source files to embed in the notebook
 FILES = [
-    ("config.py",    "guppylm/config.py"),
-    ("model.py",     "guppylm/model.py"),
-    ("dataset.py",   "guppylm/dataset.py"),
-    ("train.py",     "guppylm/train.py"),
-    ("inference.py", "guppylm/inference.py"),
+    ("config.py",    "bmolm/config.py"),
+    ("model.py",     "bmolm/model.py"),
+    ("dataset.py",   "bmolm/dataset.py"),
+    ("train.py",     "bmolm/train.py"),
+    ("inference.py", "bmolm/inference.py"),
 ]
 
 
@@ -55,12 +55,12 @@ def build():
     # ══════════════════════════════════════════════════════════════════
 
     cells.append(md(
-        "# GuppyLM — Your Friendly Fish\n"
+        "# BMOLM — Your Friendly Game Console\n"
         "\n"
-        "Train a ~9M parameter LLM that talks like a small fish.\n"
+        "Train a ~9M parameter LLM that talks like BMO from Adventure Time.\n"
         "\n"
         "**What this notebook does:**\n"
-        "1. Downloads 60K fish conversation dataset from HuggingFace\n"
+        "1. Downloads 60K BMO conversation dataset from HuggingFace\n"
         "2. Trains a BPE tokenizer on the data\n"
         "3. Trains a 6-layer vanilla transformer (8.7M params)\n"
         "4. Tests the model with sample conversations\n"
@@ -69,7 +69,7 @@ def build():
         "\n"
         "**Runtime:** ~5 min on T4 GPU\n"
         "\n"
-        "**Result:** A fish that speaks in short lowercase sentences about water, food, and light."
+        "**Result:** A game console that speaks in short cheerful sentences about games, buttons, and pixels."
     ))
 
     # ══════════════════════════════════════════════════════════════════
@@ -96,10 +96,10 @@ def build():
         "import os, shutil\n"
         "\n"
         "# Start fresh — removes stale files from previous runs\n"
-        "if os.path.exists('/content/guppy'):\n"
-        "    shutil.rmtree('/content/guppy')\n"
-        "os.makedirs('/content/guppy')\n"
-        "os.chdir('/content/guppy')\n"
+        "if os.path.exists('/content/bmo'):\n"
+        "    shutil.rmtree('/content/bmo')\n"
+        "os.makedirs('/content/bmo')\n"
+        "os.chdir('/content/bmo')\n"
         "print(f'Working dir: {os.getcwd()}')"
     ))
 
@@ -130,15 +130,15 @@ def build():
     cells.append(md(
         "## 3. Prepare Data\n"
         "\n"
-        "Download the fish conversation dataset from HuggingFace and train a BPE tokenizer.\n"
+        "Download the BMO conversation dataset from HuggingFace and train a BPE tokenizer.\n"
         "\n"
         "The dataset has 60K single-turn conversations across 60 topics:\n"
-        "greetings, food, temperature, water, tank life, emotions, philosophy (fish-level), and more.\n"
+        "greetings, games, buttons, screens, emotions, philosophy (BMO-level), and more.\n"
         "\n"
         "Each sample is formatted as ChatML:\n"
         "```\n"
         "<|im_start|>user\n"
-        "hi guppy<|im_end|>\n"
+        "hi bmo<|im_end|>\n"
         "<|im_start|>assistant\n"
         "hello. the water is nice today.<|im_end|>\n"
         "```"
@@ -150,7 +150,7 @@ def build():
         "from tokenizers import Tokenizer, models, trainers, pre_tokenizers, decoders, processors\n"
         "\n"
         "# ── Download from HuggingFace ──\n"
-        "HF_DATASET = 'arman-bd/guppylm-60k-generic'\n"
+        "HF_DATASET = 'arman-bd/bmolm-60k-generic'\n"
         "ds = load_dataset(HF_DATASET)\n"
         "print(f'Downloaded: {len(ds[\"train\"]):,} train, {len(ds[\"test\"]):,} test samples')\n"
         "\n"
@@ -202,12 +202,12 @@ def build():
     ))
 
     cells.append(code(
-        "from config import GuppyConfig\n"
-        "from model import GuppyLM\n"
+        "from config import BMOConfig\n"
+        "from model import BMOLM\n"
         "import torch\n"
         "\n"
-        "config = GuppyConfig()\n"
-        "model = GuppyLM(config)\n"
+        "config = BMOConfig()\n"
+        "model = BMOLM(config)\n"
         "print(model.param_summary())\n"
         "print(f'  Layers: {config.n_layers}, Heads: {config.n_heads}, FFN: {config.ffn_hidden}')\n"
         "print(f'  Vocab: {config.vocab_size}, Max seq: {config.max_seq_len}')\n"
@@ -230,7 +230,7 @@ def build():
         "\n"
         "The model learns to:\n"
         "- Respond in short, lowercase sentences\n"
-        "- Stay in character as a fish\n"
+        "- Stay in character as BMO\n"
         "- Cover 60 different conversation topics\n"
         "- Stop generating at the right time (learn the `<|im_end|>` token)"
     ))
@@ -248,10 +248,10 @@ def build():
     ))
 
     cells.append(code(
-        "from inference import GuppyInference\n"
+        "from inference import BMOInference\n"
         "import torch\n"
         "\n"
-        "engine = GuppyInference(\n"
+        "engine = BMOInference(\n"
         "    'checkpoints/best_model.pt', 'data/tokenizer.json',\n"
         "    device='cuda' if torch.cuda.is_available() else 'cpu'\n"
         ")\n"
@@ -262,7 +262,7 @@ def build():
         "\n"
         "# Test across different topics\n"
         "tests = [\n"
-        "    ('hi guppy',                      'greeting'),\n"
+        "    ('hi bmo',                      'greeting'),\n"
         "    ('are you hungry',                'food'),\n"
         "    ('it is really hot today',        'temperature'),\n"
         "    ('how is the water',              'water'),\n"
@@ -276,10 +276,10 @@ def build():
         "    ('what is the meaning of life',   'meaning'),\n"
         "    ('sorry i tapped the glass',      'glass_tap'),\n"
         "    ('it is raining outside',         'rain'),\n"
-        "    ('goodnight guppy',               'night'),\n"
+        "    ('goodnight bmo',               'night'),\n"
         "]\n"
         "\n"
-        "print(f'{\"Topic\":<12s}  {\"You\":<35s}  Guppy')\n"
+        "print(f'{\"Topic\":<12s}  {\"You\":<35s}  BMO')\n"
         "print('=' * 100)\n"
         "for prompt, topic in tests:\n"
         "    reply = chat(prompt)\n"
@@ -304,11 +304,11 @@ def build():
         "\n"
         "from huggingface_hub import HfApi, login\n"
         "import torch, json, os, shutil\n"
-        "from config import GuppyConfig\n"
-        "from model import GuppyLM\n"
+        "from config import BMOConfig\n"
+        "from model import BMOLM\n"
         "\n"
         "HF_TOKEN = os.environ.get('HF_TOKEN', '')  # Or paste your token here\n"
-        "HF_REPO = os.environ.get('HF_REPO', 'arman-bd/guppylm-9M')  # Or change this\n"
+        "HF_REPO = os.environ.get('HF_REPO', 'arman-bd/bmolm-9M')  # Or change this\n"
         "\n"
         "# Load checkpoint\n"
         "ckpt = torch.load('checkpoints/best_model.pt', map_location='cpu', weights_only=False)\n"
@@ -320,8 +320,8 @@ def build():
         "\n"
         "with open('hf_export/config.json', 'w') as f:\n"
         "    json.dump({\n"
-        "        'model_type': 'guppylm',\n"
-        "        'architectures': ['GuppyLM'],\n"
+        "        'model_type': 'bmolm',\n"
+        "        'architectures': ['BMOLM'],\n"
         "        'vocab_size': cfg['vocab_size'],\n"
         "        'max_position_embeddings': cfg['max_seq_len'],\n"
         "        'hidden_size': cfg['d_model'],\n"
@@ -338,9 +338,9 @@ def build():
         "print(f'pytorch_model.bin: {os.path.getsize(\"hf_export/pytorch_model.bin\")/1e6:.1f} MB')\n"
         "\n"
         "# ── ONNX format (quantized uint8) ──\n"
-        "valid_fields = {f.name for f in GuppyConfig.__dataclass_fields__.values()}\n"
-        "config = GuppyConfig(**{k: v for k, v in cfg.items() if k in valid_fields})\n"
-        "model = GuppyLM(config)\n"
+        "valid_fields = {f.name for f in BMOConfig.__dataclass_fields__.values()}\n"
+        "config = BMOConfig(**{k: v for k, v in cfg.items() if k in valid_fields})\n"
+        "model = BMOLM(config)\n"
         "model.load_state_dict(ckpt['model_state_dict'])\n"
         "model.eval()\n"
         "\n"
@@ -383,21 +383,21 @@ def build():
     cells.append(code(
         "import os\n"
         "\n"
-        "!cd /content && tar czf guppylm.tar.gz \\\n"
-        "    guppy/checkpoints/best_model.pt \\\n"
-        "    guppy/checkpoints/config.json \\\n"
-        "    guppy/data/tokenizer.json \\\n"
-        "    guppy/model.py \\\n"
-        "    guppy/config.py \\\n"
-        "    guppy/inference.py \\\n"
-        "    guppy/hf_export/model.onnx\n"
+        "!cd /content && tar czf bmolm.tar.gz \\\n"
+        "    bmo/checkpoints/best_model.pt \\\n"
+        "    bmo/checkpoints/config.json \\\n"
+        "    bmo/data/tokenizer.json \\\n"
+        "    bmo/model.py \\\n"
+        "    bmo/config.py \\\n"
+        "    bmo/inference.py \\\n"
+        "    bmo/hf_export/model.onnx\n"
         "\n"
-        "sz = os.path.getsize('/content/guppylm.tar.gz') / 1e6\n"
-        "print(f'Package: /content/guppylm.tar.gz ({sz:.1f} MB)')\n"
+        "sz = os.path.getsize('/content/bmolm.tar.gz') / 1e6\n"
+        "print(f'Package: /content/bmolm.tar.gz ({sz:.1f} MB)')\n"
         "\n"
         "try:\n"
         "    from google.colab import files\n"
-        "    files.download('/content/guppylm.tar.gz')\n"
+        "    files.download('/content/bmolm.tar.gz')\n"
         "except ImportError:\n"
         "    print('Not in Colab — download manually from the file browser.')"
     ))
@@ -407,7 +407,7 @@ def build():
     return {
         "nbformat": 4, "nbformat_minor": 0,
         "metadata": {
-            "colab": {"provenance": [], "gpuType": "T4", "name": "GuppyLM — Train"},
+            "colab": {"provenance": [], "gpuType": "T4", "name": "BMOLM — Train"},
             "kernelspec": {"name": "python3", "display_name": "Python 3"},
             "language_info": {"name": "python"},
             "accelerator": "GPU",
@@ -417,35 +417,35 @@ def build():
 
 
 def build_use():
-    """Build the use_guppylm notebook — download model from HF and chat."""
+    """Build the use_bmolm notebook — download model from HF and chat."""
     cells = []
 
     cells.append(md(
-        "# GuppyLM — Chat with a Fish\n"
+        "# BMOLM — Chat with BMO\n"
         "\n"
-        "Download a pre-trained 9M parameter fish LLM and chat with it. Just run all cells.\n"
+        "Download a pre-trained 9M parameter BMO LLM and chat with it. Just run all cells.\n"
         "\n"
-        "**Model:** [arman-bd/guppylm-9M](https://huggingface.co/arman-bd/guppylm-9M)"
+        "**Model:** [arman-bd/bmolm-9M](https://huggingface.co/arman-bd/bmolm-9M)"
     ))
 
     cells.append(code(
         "# Setup + Download\n"
         "!pip install -q torch tokenizers huggingface_hub\n"
         "import os, shutil\n"
-        "if os.path.exists('/content/guppy'): shutil.rmtree('/content/guppy')\n"
-        "os.makedirs('/content/guppy'); os.chdir('/content/guppy')\n"
+        "if os.path.exists('/content/bmo'): shutil.rmtree('/content/bmo')\n"
+        "os.makedirs('/content/bmo'); os.chdir('/content/bmo')\n"
         "\n"
         "from huggingface_hub import snapshot_download\n"
-        "snapshot_download(repo_id='arman-bd/guppylm-9M', local_dir='.')\n"
+        "snapshot_download(repo_id='arman-bd/bmolm-9M', local_dir='.')\n"
         "print('Model downloaded.')"
     ))
 
     cells.append(code(
         "# Load model\n"
-        "from inference import GuppyInference\n"
+        "from inference import BMOInference\n"
         "import torch\n"
         "\n"
-        "engine = GuppyInference('pytorch_model.bin', 'tokenizer.json',\n"
+        "engine = BMOInference('pytorch_model.bin', 'tokenizer.json',\n"
         "                        device='cuda' if torch.cuda.is_available() else 'cpu')\n"
         "\n"
         "def chat(prompt):\n"
@@ -454,8 +454,8 @@ def build_use():
         "    )['choices'][0]['message'].get('content', '').strip()\n"
         "\n"
         "# Quick test\n"
-        "for p in ['hi guppy', 'are you hungry', 'tell me a joke', 'what is the internet', 'goodnight guppy']:\n"
-        "    print(f'You> {p}\\nGuppy> {chat(p)}\\n')"
+        "for p in ['hi bmo', 'are you hungry', 'tell me a joke', 'what is the internet', 'goodnight bmo']:\n"
+        "    print(f'You> {p}\\nBMO> {chat(p)}\\n')"
     ))
 
     cells.append(code(
@@ -466,14 +466,14 @@ def build_use():
         "    except (KeyboardInterrupt, EOFError):\n"
         "        break\n"
         "    if not p or p.lower() in ('quit', 'exit', 'q'):\n"
-        "        print('Guppy> bye. i will continue being a fish.'); break\n"
-        "    print(f'Guppy> {chat(p)}\\n')"
+        "        print('BMO> bye. i will continue being a game console.'); break\n"
+        "    print(f'BMO> {chat(p)}\\n')"
     ))
 
     return {
         "nbformat": 4, "nbformat_minor": 0,
         "metadata": {
-            "colab": {"provenance": [], "name": "GuppyLM — Chat"},
+            "colab": {"provenance": [], "name": "BMOLM — Chat"},
             "kernelspec": {"name": "python3", "display_name": "Python 3"},
             "language_info": {"name": "python"},
         },
@@ -491,5 +491,5 @@ def write_notebook(nb, filename):
 
 
 if __name__ == "__main__":
-    write_notebook(build(), "train_guppylm.ipynb")
-    write_notebook(build_use(), "use_guppylm.ipynb")
+    write_notebook(build(), "train_bmolm.ipynb")
+    write_notebook(build_use(), "use_bmolm.ipynb")

@@ -1,4 +1,4 @@
-"""GuppyLM training loop."""
+"""BMOLM training loop."""
 
 import json
 import math
@@ -7,9 +7,9 @@ import time
 
 import torch
 
-from .config import GuppyConfig, TrainConfig
+from .config import BMOConfig, TrainConfig
 from .dataset import get_dataloader
-from .model import GuppyLM
+from .model import BMOLM
 
 
 def get_device(config):
@@ -46,7 +46,7 @@ def evaluate(model, loader, device, max_batches=50):
 
 
 def train():
-    mc = GuppyConfig()
+    mc = BMOConfig()
     tc = TrainConfig()
     device = get_device(tc)
     torch.manual_seed(tc.seed)
@@ -54,7 +54,7 @@ def train():
     print(f"Device: {device}")
 
     tokenizer_path = os.path.join(tc.data_dir, "tokenizer.json")
-    model = GuppyLM(mc).to(device)
+    model = BMOLM(mc).to(device)
     print(model.param_summary())
 
     train_loader = get_dataloader(

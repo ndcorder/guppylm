@@ -3,7 +3,7 @@
 
 set -e
 
-REPO="arman-bd/guppylm-9M"
+REPO="arman-bd/bmolm-9M"
 BASE="https://huggingface.co/${REPO}/resolve/main"
 DIR="$(cd "$(dirname "$0")" && pwd)"
 

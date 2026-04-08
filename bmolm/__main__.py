@@ -1,16 +1,16 @@
-"""Entry point for: python -m guppylm"""
+"""Entry point for: python -m bmolm"""
 
 import os
 import sys
 
 CHECKPOINT_PATH = "checkpoints/best_model.pt"
 TOKENIZER_PATH = "data/tokenizer.json"
-HF_REPO = "arman-bd/guppylm-9M"
+HF_REPO = "arman-bd/bmolm-9M"
 HF_BASE = f"https://huggingface.co/{HF_REPO}/resolve/main"
 
 
 def download_model():
-    """Download pre-trained GuppyLM from HuggingFace."""
+    """Download pre-trained BMOLM from HuggingFace."""
     import urllib.request
 
     files = [
@@ -19,7 +19,7 @@ def download_model():
         (f"{HF_BASE}/config.json", "checkpoints/config.json"),
     ]
 
-    print(f"Downloading GuppyLM from {HF_REPO}...\n")
+    print(f"Downloading BMOLM from {HF_REPO}...\n")
     for url, dest in files:
         os.makedirs(os.path.dirname(dest), exist_ok=True)
         name = os.path.basename(dest)
@@ -28,18 +28,18 @@ def download_model():
         size_mb = os.path.getsize(dest) / 1e6
         print(f"{size_mb:.1f} MB")
 
-    print("\nDone! Run: python -m guppylm chat")
+    print("\nDone! Run: python -m bmolm chat")
 
 
 def main():
     if len(sys.argv) < 2:
-        print("GuppyLM — A tiny fish brain")
+        print("BMOLM — A tiny living game console brain")
         print()
         print("Usage:")
-        print("  python -m guppylm train        Train the model")
-        print("  python -m guppylm prepare      Generate data & train tokenizer")
-        print("  python -m guppylm chat         Chat with Guppy")
-        print("  python -m guppylm download     Download pre-trained model from HuggingFace")
+        print("  python -m bmolm train        Train the model")
+        print("  python -m bmolm prepare      Generate data & train tokenizer")
+        print("  python -m bmolm chat         Chat with BMO")
+        print("  python -m bmolm download     Download pre-trained model from HuggingFace")
         return
 
     cmd = sys.argv[1]
@@ -59,10 +59,10 @@ def main():
     elif cmd == "chat":
         if not os.path.exists(CHECKPOINT_PATH):
             print("Model not found. Download the pre-trained model first:\n")
-            print("  python -m guppylm download\n")
+            print("  python -m bmolm download\n")
             print("Or train your own:\n")
-            print("  python -m guppylm prepare")
-            print("  python -m guppylm train")
+            print("  python -m bmolm prepare")
+            print("  python -m bmolm train")
             return
 
         from .inference import main as inference_main
@@ -70,7 +70,7 @@ def main():
 
     else:
         print(f"Unknown command: {cmd}")
-        print("Run 'python -m guppylm' for usage.")
+        print("Run 'python -m bmolm' for usage.")
 
 
 main()

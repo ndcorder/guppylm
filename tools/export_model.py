@@ -1,5 +1,5 @@
 """
-Export GuppyLM to HuggingFace standard format.
+Export BMOLM to HuggingFace standard format.
 
 Standard layout:
     pytorch_model.bin    — state_dict only
@@ -49,8 +49,8 @@ def export_and_push(checkpoint_path, tokenizer_path, repo_id, token, local_dir="
     # 2. config.json — model architecture only
     config_path = os.path.join(local_dir, "config.json")
     hf_config = {
-        "model_type": "guppylm",
-        "architectures": ["GuppyLM"],
+        "model_type": "bmolm",
+        "architectures": ["BMOLM"],
         "vocab_size": config["vocab_size"],
         "max_position_embeddings": config["max_seq_len"],
         "hidden_size": config["d_model"],
@@ -114,7 +114,7 @@ def export_and_push(checkpoint_path, tokenizer_path, repo_id, token, local_dir="
 
 
 def main():
-    parser = argparse.ArgumentParser(description="Export GuppyLM to HuggingFace format")
+    parser = argparse.ArgumentParser(description="Export BMOLM to HuggingFace format")
     parser.add_argument("--checkpoint", default="checkpoints/best_model.pt")
     parser.add_argument("--tokenizer", default="data/tokenizer.json")
     parser.add_argument("--repo", default=None)
